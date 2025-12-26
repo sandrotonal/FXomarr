@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String?
+  shopId    String?  @unique
+  shop      Shop?    @relation(fields: [shopId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Shop {
+  id          String    @id @default(uuid())
+  shopDomain  String    @unique
+  accessToken String
+  scope       String?
+  isActive    Boolean   @default(true)
+  user        User?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("shops")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  shopifyId   String   @unique
+  title       String
+  description String?
+  vendor      String?
+  productType String?
+  status      String?
+  shopId      String
+  shop        Shop     @relation(fields: [shopId], references: [id])
+  variants    Variant[]
+  generations AiGeneration[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Variant {
+  id          String  @id @default(uuid())
+  shopifyId   String  @unique
+  title       String
+  price       Float
+  sku         String?
+  inventory   Int     @default(0)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+
+  @@map("variants")
+}
+
+model AiGeneration {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  type      String   // 'DESCRIPTION' | 'AD_COPY'
+  prompt    String?
+  content   String   @db.Text
+  metadata  Json?    // Store specific params (tone, platform)
+  createdAt DateTime @default(now())
+
+  @@map("ai_generations")
+}
+
+model WebhookLog {
+  id        String   @id @default(uuid())
+  shopDomain String
+  topic     String
+  payload   Json
+  createdAt DateTime @default(now())
+
+  @@map("webhook_logs")
+}
