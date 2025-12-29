@@ -1,0 +1,14 @@
+{
+  "name": "shopify-ai-saas-mvp",
+  "version": "1.0.0",
+  "description": "Shopify AI SaaS MVP",
+  "scripts": {
+    "dev:api": "cd api && npm run dev",
+    "dev:web": "cd apps/web && npm run dev",
+    "build": "echo 'Run build in specific workspaces'",
+    "install:all": "cd api && npm install && cd ../apps/web && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
