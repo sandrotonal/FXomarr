@@ -86,3 +86,6 @@ See `.env.example` for the full list. Key variables include:
 - **Production Deployment:** Docker/Vercel configuration pending.
 - **Advanced AI Logic:** Placeholder for GPT-4 integration.
 - **Session Storage:** Currently using Memory/Prisma (needs finalization for production).
+
+
+KENDİNDEN KAÇMA KENDİNLE BARIŞIK OL
